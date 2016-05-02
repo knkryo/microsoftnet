@@ -1,2 +1,2 @@
-microsoftnet
+microsoftnetを利用したコード類を更新しています
 ============
