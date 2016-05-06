@@ -80,21 +80,21 @@ namespace Common.ClassLibrary.Validation
 				}
 
 				//ファイルパスが相対パスまたはUnKnownの場合にはFalse
-                switch (Utils.FileOperationUtils.GetFilePathType(this._ValidationValue))
+                switch (IO.Path.FileOperationUtils.GetFilePathType(this._ValidationValue))
                 {
-                    case Utils.FileOperationUtils.FilePathType.UnKnown:
+                    case IO.Path.FileOperationUtils.FilePathType.UnKnown:
 
 						base.SetInvalidReason(new FileFullPathValueValidationReason(FileFullPathValueValidationReason.FilePathValidationReason.UnKnownPath));
 
 						return false;
-                    case Utils.FileOperationUtils.FilePathType.RelativePath:
+                    case IO.Path.FileOperationUtils.FilePathType.RelativePath:
 
 						base.SetInvalidReason(new FileFullPathValueValidationReason(FileFullPathValueValidationReason.FilePathValidationReason.RelativePath));
 
 						return false;
-                    case Utils.FileOperationUtils.FilePathType.AbsolutePath:
-                    case Utils.FileOperationUtils.FilePathType.PathNameString:
-                    case Utils.FileOperationUtils.FilePathType.UniversalNamingConvention:
+                    case IO.Path.FileOperationUtils.FilePathType.AbsolutePath:
+                    case IO.Path.FileOperationUtils.FilePathType.PathNameString:
+                    case IO.Path.FileOperationUtils.FilePathType.UniversalNamingConvention:
 
 						base.SetInvalidReason(new FileFullPathValueValidationReason(FileFullPathValueValidationReason.FilePathValidationReason.Success));
 

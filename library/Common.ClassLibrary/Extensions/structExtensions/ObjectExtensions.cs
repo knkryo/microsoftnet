@@ -8,7 +8,7 @@ namespace Common.ClassLibrary.Extensions
     public static class ObjectExtensions
     {
 
-        //値変換
+        //From ObjectCore
 
         #region ConvertNullToEmpty
 
@@ -20,12 +20,10 @@ namespace Common.ClassLibrary.Extensions
         /// <remarks></remarks>
         public static string ConvertNullToEmpty(this object target)
         {
-            return (target == null ? string.Empty : target.ToString());
+            return ObjectCore.ConvertNullToEmpty(target);
         }
 
         #endregion
-
-        //型変換
 
         #region ToBoolean
 
@@ -36,20 +34,12 @@ namespace Common.ClassLibrary.Extensions
         /// <returns></returns>
         public static bool ToBoolean(this object target)
         {
-            if (Convert.ToString(target) == string.Empty)
-            {
-                return false;
-            }
-            else
-            {
-                return TryParseExtensions.ToSafeParseBoolean(Convert.ToString(target));
-            }
-
+            return ObjectCore.ToBoolean(target);
         }
 
         #endregion
 
-        //型変換 (他関数I/Fのみ
+        //From TryParseCore
 
         #region ToSafeInt32
 
@@ -60,7 +50,7 @@ namespace Common.ClassLibrary.Extensions
         /// <returns></returns>
         public static Int32 ToSafeInt32(this object target)
         {
-            return TryParseExtensions.ToSafeParseInt32(Convert.ToString(target));
+            return TryParseCore.ToSafeParseInt32(Convert.ToString(target));
         }
 
         #endregion
@@ -74,7 +64,7 @@ namespace Common.ClassLibrary.Extensions
         /// <returns></returns>
         public static Int64 ToSafeInt64(this object target)
         {
-            return TryParseExtensions.ToSafeParseInt64(Convert.ToString(target));
+            return TryParseCore.ToSafeParseInt64(Convert.ToString(target));
         }
 
         #endregion
@@ -88,7 +78,7 @@ namespace Common.ClassLibrary.Extensions
         /// <returns></returns>
         public static long ToSafeLong(this object target)
         {
-            return TryParseExtensions.ToSafeParseInt64(Convert.ToString(target));
+            return TryParseCore.ToSafeParseInt64(Convert.ToString(target));
         }
 
         #endregion
@@ -102,11 +92,12 @@ namespace Common.ClassLibrary.Extensions
         /// <returns></returns>
         public static System.Decimal ToSafeDecimal(this object target)
         {
-            return TryParseExtensions.ToSafeParseDecimal(Convert.ToString(target));
+            return TryParseCore.ToSafeParseDecimal(Convert.ToString(target));
         }
 
         #endregion
 
+        //
         #region ToTruncateValue
 
         /// <summary>
@@ -116,10 +107,15 @@ namespace Common.ClassLibrary.Extensions
         /// <returns></returns>
         public static string ToTruncateValue(this object target, int length)
         {
-            return Utils.MathUtils.TruncateValue(target, length);
+            return MathUtils.TruncateValue(target, length);
         }
 
         #endregion
+
+        public static object CastTo(this object target,object destClass)
+        {
+            return ObjectCore.CastTo(target, destClass);
+        }
 
     }
 }

@@ -20,22 +20,6 @@ namespace Common.ClassLibrary.Extensions
     {
 
         // Add系
-
-        #region AddDirectorySeparator
-
-        /// <summary>
-        /// 【拡張メソッド】末尾に"\"がない場合、"\"を付与した結果を返します
-        /// </summary>
-        /// <param name="target"></param>
-        /// <returns></returns>
-        /// <remarks></remarks>
-        public static string AddTailDirectorySeparator(this string target)
-        {
-            return AddTailMark(target, System.IO.Path.DirectorySeparatorChar.ToString());
-        }
-
-        #endregion
-
         #region AddTailSlush
 
         /// <summary>
@@ -46,9 +30,7 @@ namespace Common.ClassLibrary.Extensions
         /// <remarks></remarks>
         public static string AddTailSlush(this string target)
         {
-
-            return AddTailMark(target, "/");
-
+            return StringCore.AddTailSlush(target);
         }
 
         #endregion
@@ -66,21 +48,7 @@ namespace Common.ClassLibrary.Extensions
         /// ------------------------------------------------------------------------------------------
         public static string AddTailMark(this string target, string addMark)
         {
-
-            if (target.Trim().Equals(string.Empty) == true)
-            {
-                return target;
-            }
-
-            if (target.Substring(target.Length - 1, 1).Equals(addMark) == true)
-            {
-                return target;
-            }
-            else
-            {
-                return target + addMark;
-            }
-
+            return StringCore.AddTailMark(target, addMark);
         }
 
         #endregion
@@ -96,7 +64,7 @@ namespace Common.ClassLibrary.Extensions
         /// <remarks>SHIFT-JIS換算です</remarks>
         public static int GetByteCount(this string target)
         {
-            return GetByteCount(target, 932);
+            return StringCore.GetByteCount(target);
         }
 
         /// <summary>
@@ -106,16 +74,7 @@ namespace Common.ClassLibrary.Extensions
         /// <remarks></remarks>
         public static int GetByteCount(this string target, int codePage)
         {
-
-            try
-            {
-                return System.Text.Encoding.GetEncoding(codePage).GetByteCount(target);
-            }
-            catch (System.Exception ex)
-            {
-                throw ex;
-            }
-
+            return StringCore.GetByteCount(target);
         }
 
         /// <summary>
@@ -125,18 +84,8 @@ namespace Common.ClassLibrary.Extensions
         /// <remarks></remarks>
         public static int GetByteCount(this string target, string encodingName)
         {
-
-            try
-            {
-                return System.Text.Encoding.GetEncoding(encodingName).GetByteCount(target);
-            }
-            catch (System.Exception ex)
-            {
-                throw ex;
-            }
-
+            return StringCore.GetByteCount(target, encodingName);
         }
-
 
         #endregion
 
@@ -148,20 +97,9 @@ namespace Common.ClassLibrary.Extensions
         /// <param name="value"></param>
         /// <param name="match">検索したい文字列</param>
         /// <returns></returns>
-        public static int GetCharCount(this string value, string match)
+        public static int GetCharCount(this string target, string match)
         {
-
-            int count = 0;
-
-            for (int i = 0; i <= value.Length - 1; i++)
-            {
-                if (value.Substring(i, 1).Equals(match) == true)
-                {
-                    count += 1;
-                }
-            }
-            return count;
-
+            return StringCore.GetCharCount(target, match);
         }
 
         /// <summary>
@@ -170,23 +108,9 @@ namespace Common.ClassLibrary.Extensions
         /// <param name="value"></param>
         /// <param name="match">検索したい文字列</param>
         /// <returns></returns>
-        public static int GetCharCount(this string value, string[] match)
+        public static int GetCharCount(this string target, string[] match)
         {
-
-            int count = 0;
-            string chk = null;
-
-            chk = string.Join("", match);
-
-            for (int i = 0; i <= value.Length - 1; i++)
-            {
-                if (chk.IndexOf(value.Substring(i, 1)) >= 0)
-                {
-                    count += 1;
-                }
-            }
-            return count;
-
+            return StringCore.GetCharCount(target, match);
         }
 
         #endregion
@@ -201,21 +125,7 @@ namespace Common.ClassLibrary.Extensions
         /// <remarks></remarks>
         public static bool IsAsciiCharacterOnly(this string target)
         {
-            if (string.IsNullOrEmpty(target))
-            {
-                return false;
-            }
-            if (target.Length == GetCharCount(target, new Utils.AsciiCharacterCreator().getBritishStringArray().ToArray()))
-            {
-                return true;
-
-            }
-            else
-            {
-                return false;
-            }
-
-
+            return StringCore.IsAsciiCharacterOnly(target);
         }
 
         #endregion
@@ -234,7 +144,7 @@ namespace Common.ClassLibrary.Extensions
         /// <remarks></remarks>
         public static string PadRightB(this string target, int totalWidth)
         {
-            return PadRightB(target, totalWidth, ' ');
+            return StringCore.PadRightB(target, totalWidth);
         }
 
         /// <summary>
@@ -245,22 +155,9 @@ namespace Common.ClassLibrary.Extensions
         /// <param name="paddingChar">埋め込み文字</param>
         /// <returns></returns>
         /// <remarks></remarks>
-        public static string PadRightB(this string value, int totalWidth, char paddingChar)
+        public static string PadRightB(this string target, int totalWidth, char paddingChar)
         {
-            for (int i = 0; i <= totalWidth; i += 1)
-            {
-                if (GetByteCount(value) > totalWidth)
-                {
-                    break;
-                }
-
-                if (GetByteCount(value.ToString() + paddingChar) > totalWidth)
-                {
-                    break;
-                }
-                value += paddingChar;
-            }
-            return value;
+            return StringCore.PadRightB(target, totalWidth, paddingChar);
         }
 
         #endregion
@@ -276,7 +173,7 @@ namespace Common.ClassLibrary.Extensions
         /// <remarks></remarks>
         public static string PadLeftB(this string target, int totalWidth)
         {
-            return PadLeftB(target, totalWidth, ' ');
+            return StringCore.PadLeftB(target, totalWidth);
         }
 
         /// <summary>
@@ -287,28 +184,9 @@ namespace Common.ClassLibrary.Extensions
         /// <param name="paddingChar">埋め込み文字</param>
         /// <returns></returns>
         /// <remarks></remarks>
-        public static string PadLeftB(this string value, int totalWidth, char paddingChar)
+        public static string PadLeftB(this string target, int totalWidth, char paddingChar)
         {
-
-
-            for (int i = 0; i <= totalWidth; i += 1)
-            {
-                if (GetByteCount(value) > totalWidth)
-                {
-                    break;
-                }
-
-                if (GetByteCount(value.ToString() + paddingChar) > totalWidth)
-                {
-                    break;
-                }
-
-                value = paddingChar + value;
-
-            }
-
-            return value;
-
+            return StringCore.PadLeftB(target, totalWidth, paddingChar);
         }
 
         #endregion
@@ -325,32 +203,7 @@ namespace Common.ClassLibrary.Extensions
         /// <remarks></remarks>
         public static string SubStringB(this string target, int startIndex, int Length)
         {
-
-            string buff = string.Empty;
-            string startBuff = string.Empty;
-            string returnsource = string.Empty;
-
-
-            for (int i = 0; i <= target.Length - 1; i++)
-            {
-                buff = target.Substring(i, 1);
-                startBuff += buff;
-
-                if (GetByteCount(startBuff) > startIndex)
-                {
-                    if (GetByteCount(returnsource + buff) <= Length)
-                    {
-                        returnsource += buff;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
-
-            return returnsource;
-
+            return StringCore.SubStringB(target, startIndex, Length);
         }
 
         /// <summary>
@@ -362,9 +215,7 @@ namespace Common.ClassLibrary.Extensions
         /// <remarks></remarks>
         public static string SubStringB(this string target, int startIndex)
         {
-
-            return SubStringB(target, startIndex, GetByteCount(target));
-
+            return StringCore.SubStringB(target, startIndex);
         }
 
         #endregion
@@ -380,16 +231,7 @@ namespace Common.ClassLibrary.Extensions
         /// <returns></returns>
         public static System.DateTime ToDateTime(this string target)
         {
-            string tempDate = target.Replace("/", "");
-
-            if (string.IsNullOrEmpty(target))
-            {
-                throw new ArgumentException();
-            }
-            else
-            {
-                return System.DateTime.ParseExact(tempDate, "yyyyMMdd", null);
-            }
+            return StringCore.ConvertToDateTime(target);
         }
 
         /// <summary>
@@ -400,14 +242,7 @@ namespace Common.ClassLibrary.Extensions
         /// <returns></returns>
         public static System.DateTime ToDateTime(this string target, string format)
         {
-            if (string.IsNullOrEmpty(target) || string.IsNullOrEmpty(format))
-            {
-                throw new ArgumentException();
-            }
-            else
-            {
-                return System.DateTime.ParseExact(target, format, null);
-            }
+            return StringCore.ConvertToDateTime(target, format);
         }
 
         #endregion
@@ -421,21 +256,12 @@ namespace Common.ClassLibrary.Extensions
         /// <returns></returns>
         public static bool ToBoolean(this string target)
         {
-
-            if (target == string.Empty)
-            {
-                return false;
-            }
-            else
-            {
-                return Convert.ToBoolean(target);
-            }
-
+            return StringCore.ConvertToBoolean(target);
         }
 
         #endregion
 
-        //型変換 (他関数I/Fのみ
+        //型変換
 
         #region ToSafeInt32
 
@@ -446,7 +272,7 @@ namespace Common.ClassLibrary.Extensions
         /// <returns></returns>
         public static Int32 ToSafeInt32(this string target)
         {
-            return TryParseExtensions.ToSafeParseInt32(target);
+            return TryParseCore.ToSafeParseInt32(target);
         }
 
         #endregion
@@ -460,7 +286,7 @@ namespace Common.ClassLibrary.Extensions
         /// <returns></returns>
         public static Int64 ToSafeInt64(this string target)
         {
-            return TryParseExtensions.ToSafeParseInt64(target);
+            return TryParseCore.ToSafeParseInt64(target);
         }
 
         #endregion
@@ -474,7 +300,7 @@ namespace Common.ClassLibrary.Extensions
         /// <returns></returns>
         public static long ToSafeLong(this string target)
         {
-            return TryParseExtensions.ToSafeParseInt64(target);
+            return TryParseCore.ToSafeParseInt64(target);
         }
 
         #endregion
@@ -488,10 +314,12 @@ namespace Common.ClassLibrary.Extensions
         /// <returns></returns>
         public static System.Decimal ToSafeDecimal(this string target)
         {
-            return TryParseExtensions.ToSafeParseDecimal(target);
+            return TryParseCore.ToSafeParseDecimal(target);
         }
 
         #endregion
+
+        //変換
 
         #region ToTruncateValue
 
@@ -502,7 +330,7 @@ namespace Common.ClassLibrary.Extensions
         /// <returns></returns>
         public static string ToTruncateValue(this string target, int length)
         {
-            return Utils.MathUtils.TruncateValue(target, length);
+            return MathUtils.TruncateValue(target, length);
         }
 
         #endregion
@@ -519,9 +347,7 @@ namespace Common.ClassLibrary.Extensions
         /// <remarks></remarks>
         public static string ConvertEmptyToSpaceOne(this string target)
         {
-
-            return (target.Trim().Equals(string.Empty) ? " " : target.Trim()).ToString();
-
+            return StringCore.ConvertEmptyToSpaceOne(target);
         }
 
         #endregion
@@ -535,7 +361,7 @@ namespace Common.ClassLibrary.Extensions
         /// <returns></returns>
         public static string ConvertEmptyToZero(this string target)
         {
-            return target.EmptyToZero(false);
+            return StringCore.ConvertEmptyToZero(target);
         }
 
         /// <summary>
@@ -545,17 +371,9 @@ namespace Common.ClassLibrary.Extensions
         /// <param name="isTrim">Trimして判定するかどうかを指定します</param>
         /// <returns></returns>
         /// <remarks></remarks>
-        public static string EmptyToZero(this string target, bool isTrim)
+        public static string ConvertEmptyToZero(this string target, bool isTrim)
         {
-            if (isTrim)
-            {
-                return target == string.Empty ? "0" : target;
-            }
-            else
-            {
-                return (target.Trim().Equals(string.Empty) ? "0" : target.Trim()).ToString();
-            }
-
+            return StringCore.ConvertEmptyToZero(target, isTrim);
         }
 
         #endregion
@@ -569,7 +387,7 @@ namespace Common.ClassLibrary.Extensions
         /// <returns></returns>
         public static string ConvertZeroToEmpty(this string target)
         {
-            return target == "0" ? string.Empty : target;
+            return StringCore.ConvertZeroToEmpty(target);
         }
 
         #endregion
@@ -583,12 +401,12 @@ namespace Common.ClassLibrary.Extensions
         /// <returns></returns>
         public static object ConvertEmptyToDBNull(this string target)
         {
-            return (target == null || target == string.Empty ? DBNull.Value : (object)target);
+            return StringCore.ConvertEmptyToDBNull(target);
         }
 
         #endregion
 
-        #region ConvertToNumberOnly
+        #region GetNumberOnly
 
         /// <summary>
         /// 【拡張メソッド】対象の文字列から数字のみを取得して返す
@@ -596,15 +414,9 @@ namespace Common.ClassLibrary.Extensions
         /// <param name="target">取得対象となる文字列</param>
         /// <returns></returns>
         /// <remarks></remarks>
-        public static string ConvertToNumberOnly(this string target)
+        public static string GetNumberOnly(this string target)
         {
-            string ret = string.Empty;
-            foreach (System.Text.RegularExpressions.Match m in (System.Text.RegularExpressions.Regex.Matches(target, "\\d+")))
-            {
-                ret += m.ToString();
-            }
-            return ret;
-
+            return StringCore.GetNumberOnly(target);
         }
 
         #endregion
@@ -620,24 +432,7 @@ namespace Common.ClassLibrary.Extensions
         /// <returns></returns>
         public static string FormatToJapaneseDate(this string target)
         {
-
-            // 和暦に変換するためのオブジェクトを生成する 
-
-            CultureInfo culture = new CultureInfo("ja-JP", true);
-
-            // プロパティを設定する 
-
-            culture.DateTimeFormat.Calendar = new JapaneseCalendar();
-
-            // 引数を和暦に変換して返却する 
-            if (string.IsNullOrEmpty(target))
-            {
-                return string.Empty;
-            }
-            else
-            {
-                return Convert.ToDateTime(target).ToString("ggyy年M月d日", culture);
-            }
+            return StringCore.FormatToJapaneseDate(target);
         }
 
         #endregion
@@ -651,14 +446,7 @@ namespace Common.ClassLibrary.Extensions
         /// <returns></returns>
         public static string FormatToJapaneseTime(this string target)
         {
-            if (target.Trim().ToString().Length > 0)
-            {
-                return target.Replace(":", "時") + "分";
-            }
-            else
-            {
-                return string.Empty;
-            }
+            return StringCore.FormatToJapaneseTime(target);
         }
 
         #endregion
@@ -672,14 +460,7 @@ namespace Common.ClassLibrary.Extensions
         /// <returns></returns>
         public static string FormatToJapaneseYen(this string target)
         {
-            if (TryParseExtensions.TryParseDecimal(target))
-            {
-                return Convert.ToDecimal(target).ToJapaneseYen();
-            }
-            else
-            {
-                return string.Empty;
-            }
+            return StringCore.FormatToJapaneseYen(target);
         }
 
         /// <summary>
@@ -688,19 +469,9 @@ namespace Common.ClassLibrary.Extensions
         /// <param name="target"></param>
         /// <param name="isCommaNeeded">カンマが必要かどうかを指定します</param>
         /// <returns></returns>
-        public static string ToJapaneseYen(this decimal target, bool isCommaNeeded)
+        public static string ToJapaneseYen(this string target, bool isCommaNeeded)
         {
-
-            string val = string.Empty;
-            val = target.ToJapaneseYen();
-            if (isCommaNeeded == true)
-            {
-                return val;
-            }
-            else
-            {
-                return val.Replace(",", "");
-            }
+            return StringCore.FormatToJapaneseYen(target,isCommaNeeded);
         }
 
         #endregion
@@ -714,23 +485,7 @@ namespace Common.ClassLibrary.Extensions
         /// <returns></returns>
         public static string FormatToZip(this string target)
         {
-
-            if (target == string.Empty)
-            {
-                return string.Empty;
-            }
-
-            target = target.Replace("-", string.Empty);
-
-            if (target.Length == 7)
-            {
-                return target.Substring(0, 3) + "-" + target.Substring(3, 4);
-            }
-            else
-            {
-                return target;
-            }
-
+            return StringCore.FormatToZip(target);
         }
 
         #endregion
@@ -742,7 +497,7 @@ namespace Common.ClassLibrary.Extensions
         /// </summary>
         public static string FormatToDate(this string target)
         {
-            return target.FormatToDate("yyyy/MM/dd");
+            return StringCore.FormatToDate(target);
         }
 
         /// <summary>
@@ -750,76 +505,12 @@ namespace Common.ClassLibrary.Extensions
         /// </summary>
         public static string FormatToDate(this string target, string format)
         {
-            return target.FormatToDate(format, System.DateTime.Now.ToString("yyyy/MM/dd"));
+            return StringCore.FormatToDate(target);
         }
 
         public static string FormatToDate(this string target, string format, string autoCompletionSupportDate)
         {
-
-            const string DELIMITER = "/";
-            string[] items = null;
-            System.DateTime result = default(System.DateTime);
-
-
-            //デリミタを含んでいるのであれば、デリミタで分割して処理
-            if (target.Contains(DELIMITER) == true)
-            {
-                items = target.Split(Convert.ToChar(DELIMITER));
-
-                if (items.Length == 2)
-                {
-
-                    target = Convert.ToDateTime(autoCompletionSupportDate).ToString("yyyy") + DELIMITER +
-                                                items[0].PadLeft(2, '0') + DELIMITER + items[1].PadLeft(2, '0');
-                }
-                else
-                {
-                    if (items[0].Length <= 4 && items[1].Length <= 2 && items[2].Length <= 2)
-                    {
-                        target = Convert.ToDateTime(autoCompletionSupportDate).ToString("yyyy").Substring(0, 4 - items[0].Length) + items[0] + DELIMITER +
-                                                   items[1].PadLeft(2, '0') + DELIMITER + items[2].PadLeft(2, '0');
-                    }
-                }
-
-            }
-            else
-            {
-                //そうでない場合には、入力値を元に自動で補完する
-                switch (target.Length)
-                {
-                    case 1:
-                    case 2:
-
-                        target = Convert.ToDateTime(AppDomain.CurrentDomain.GetData("NowSystemDateFormatAfter")).ToString("yyyy/MM") + DELIMITER + target.PadLeft(2, '0');
-                        break;
-                    case 3:
-                    case 4:
-
-                        target = Convert.ToDateTime(AppDomain.CurrentDomain.GetData("NowSystemDateFormatAfter")).ToString("yyyy") + DELIMITER + target.PadLeft(4, '0').Substring(0, 2) + DELIMITER + target.PadLeft(4, '0').Substring(2, 2);
-                        break;
-                    case 6:
-
-                        target = Convert.ToDateTime(AppDomain.CurrentDomain.GetData("NowSystemDateFormatAfter")).ToString("yyyy").Substring(0, 2) + target.Substring(0, 2) + DELIMITER + target.Substring(2, 2) + DELIMITER + target.Substring(4, 2);
-                        break;
-                    case 8:
-
-                        target = target.Substring(0, 4) + DELIMITER + target.Substring(4, 2) + DELIMITER + target.Substring(6, 2);
-                        break;
-
-                }
-            }
-
-
-            if (System.DateTime.TryParse(target, out result) != true)
-            {
-
-                return string.Empty;
-            }
-            else
-            {
-                return Convert.ToDateTime(target).ToString(format);
-            }
-
+            return StringCore.FormatToDate(target, format, autoCompletionSupportDate);
         }
 
         #endregion
@@ -833,23 +524,7 @@ namespace Common.ClassLibrary.Extensions
         /// <returns></returns>
         public static string FormatToCommaValue(this string target)
         {
-
-            decimal result = default(decimal);
-
-            if (target == string.Empty)
-            {
-                return string.Empty;
-            }
-
-            if (decimal.TryParse(target, out result) == true)
-            {
-                return result.ToString("#,##0.#####################");
-            }
-            else
-            {
-                return target;
-            }
-
+            return StringCore.FormatToCommaValue(target);
         }
 
         /// <summary>
@@ -859,31 +534,7 @@ namespace Common.ClassLibrary.Extensions
         /// <returns></returns>
         public static string FormatToCommaValue(this string target, int decimalPointLength)
         {
-
-            decimal result = default(decimal);
-
-            if (target == string.Empty)
-            {
-                return string.Empty;
-            }
-
-            if (decimal.TryParse(target, out result) == true)
-            {
-                if (decimalPointLength > 0)
-                {
-                    return result.ToString("#,##0." + ("0000000000000").ToString().Substring(0, decimalPointLength) + "################");
-                }
-                else
-                {
-                    return result.ToString("#,##0.#####################");
-
-                }
-            }
-            else
-            {
-                return target;
-            }
-
+            return StringCore.FormatToCommaValue(target, decimalPointLength);
         }
 
         #endregion

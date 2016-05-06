@@ -44,7 +44,7 @@ namespace Common.ClassLibrary.Validation
 
 			//パスとして認識できない場合にはFalse
 
-            if (Utils.FileOperationUtils.GetFilePathType(this._ValidationValue).Equals(Utils.FileOperationUtils.FilePathType.UnKnown))
+            if (IO.Path.FileOperationUtils.GetFilePathType(this._ValidationValue).Equals(IO.Path.FileOperationUtils.FilePathType.UnKnown))
             {
 				base.SetInvalidReason(new ValidationReason(false, "", ""));
 				return false;

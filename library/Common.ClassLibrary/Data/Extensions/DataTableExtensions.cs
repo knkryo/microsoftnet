@@ -6,8 +6,8 @@ using System.Diagnostics;
 using System.Text;
 
 using Common.ClassLibrary.Utils;
-
-namespace Common.ClassLibrary.Extensions
+using Common.ClassLibrary.Extensions;
+namespace Common.ClassLibrary.Data.Extensions
 {
     /// <summary>
     /// DataTable関連のユーティリティ

@@ -43,7 +43,7 @@ namespace Common.ClassLibrary.Validation
 				//指定ディレクトリに一時ファイルを作ってみる
 
 				try {
-                    tmpString = Utils.FileOperationUtils.GetTempFileName(_ValidationValue);
+                    tmpString = IO.Path.FileOperationUtils.GetTempFileName(_ValidationValue);
 
 					if ((tmpString.Length > 0)) {
 						System.IO.File.Delete(tmpString);

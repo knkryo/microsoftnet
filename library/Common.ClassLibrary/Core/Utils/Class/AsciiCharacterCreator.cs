@@ -6,7 +6,6 @@ using System.Diagnostics;
 
 namespace Common.ClassLibrary.Utils
 {
-
     /// ------------------------------------------------------------------------------------------
     /// <summary>
     /// ASCII文字列の束を返却するUtilityクラス
